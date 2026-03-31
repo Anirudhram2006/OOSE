@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h3>Medical Expert Dashboard</h3>
+<div class="row g-4">
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header">Submit Disease Update</div>
+      <div class="card-body">
+        <form method="post" action="{{ url_for('admin.submit_expert_update') }}">
+          <div class="mb-2">
+            <label class="form-label">Disease</label>
+            <select class="form-select" name="disease_id">
+              {% for disease in diseases %}<option value="{{ disease.id }}">{{ disease.name }}</option>{% endfor %}
+            </select>
+          </div>
+          <div class="mb-2"><label class="form-label">Update Notes</label><textarea class="form-control" name="update_notes" rows="4" required></textarea></div>
+          <div class="mb-2"><label class="form-label">Reference Link</label><input class="form-control" name="reference"></div>
+          <button class="btn btn-success">Submit for Approval</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header">Recent Submitted Updates</div>
+      <div class="card-body">
+        <ul class="list-group">
+          {% for req in requests %}
+          <li class="list-group-item">
+            Disease #{{ req.disease_id }} - {{ req.update_notes[:70] }}...
+            {% if req.approved %}<span class="badge bg-success">Approved</span>{% else %}<span class="badge bg-secondary">Pending</span>{% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

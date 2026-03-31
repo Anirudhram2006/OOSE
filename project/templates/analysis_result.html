@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h3>Analysis Result</h3>
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5>Prediction Confidence</h5>
+        <div class="progress mb-2" style="height: 24px;">
+          <div class="progress-bar bg-success" style="width: {{ (confidence*100)|round(1) }}%">{{ (confidence*100)|round(1) }}%</div>
+        </div>
+        <small class="text-muted">Source: {{ source_type|title }} analysis.</small>
+        {% if image_url %}
+        <img src="{{ image_url }}" class="img-fluid rounded mt-3" alt="Uploaded image preview">
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <div class="card h-100">
+      <div class="card-body">
+        <h4>{{ disease.name|title }}</h4>
+        <span class="badge bg-primary mb-2">{{ disease.category|title }}</span>
+        <p>{{ disease.description }}</p>
+        <h6>Remedies</h6><p>{{ disease.remedies }}</p>
+        <h6>Precautions</h6><p>{{ disease.precautions }}</p>
+        <div class="alert alert-warning"><strong>Consult doctor:</strong> {{ disease.doctor_advice }}</div>
+        <a class="btn btn-outline-primary" href="{{ url_for('analysis.remedy_details', disease_id=disease.id) }}">View Detailed Remedy</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
