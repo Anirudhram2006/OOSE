@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-header bg-info text-white">SkinAI Chatbot</div>
+      <div class="card-body">
+        <form id="chatForm" method="post">
+          {{ form.hidden_tag() }}
+          <div class="input-group mb-3">
+            {{ form.query(class='form-control', id='chatQuery', placeholder='Ask: Is this contagious?') }}
+            <button class="btn btn-info text-white" type="submit">Ask</button>
+          </div>
+        </form>
+        <div id="chatOutput" class="alert alert-light border">{{ response or 'Ask any question about skin conditions and treatments.' }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+document.getElementById('chatForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const query = document.getElementById('chatQuery').value;
+  const response = await fetch("{{ url_for('chatbot.ask_chatbot') }}", {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({query})
+  });
+  const data = await response.json();
+  document.getElementById('chatOutput').textContent = data.response;
+});
+</script>
+{% endblock %}

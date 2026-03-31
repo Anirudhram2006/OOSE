@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h3>{{ disease.name|title }} - Remedy Details</h3>
+    <p><strong>Category:</strong> {{ disease.category|title }}</p>
+    <p>{{ disease.description }}</p>
+    <hr>
+    <h5>Recommended Remedies</h5>
+    <p>{{ disease.remedies }}</p>
+    <h5>Precautions</h5>
+    <p>{{ disease.precautions }}</p>
+    <h5>Doctor Consultation Advice</h5>
+    <p class="text-danger">{{ disease.doctor_advice }}</p>
+  </div>
+</div>
+{% endblock %}
